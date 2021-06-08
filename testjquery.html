@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container my-5">
+		<h3 class="mb-3">JQuery Checkbox Practice</h3>
+		<table class="table table-bordered table-responsive">
+			<thead>
+				<tr>
+					<th style="width: 2% ;"><input type="checkbox" id="check-all"></th>
+					<th>ID</th>
+					<th>PARTICULARS</th>
+					<th>AMOUNT</th>
+				</tr>
+			</thead>
+			<tbody id="json-data">
+				 
+			</tbody>
+		</table>
+		<div class="d-flex align-items-center justify-content-end"> 
+			<label for="" class="mx-2">Total : Php</label>
+			<div class="form-group">
+				<input type="text" class="form-control form-control-lg fw-bold" id="total" value="0.00">
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script> 
+		$(document).ready(function() { 
+			let total = 0; 
+			var data = [{"id": 1,"name": "MEDICINE 1","amount": 12.50},{"id": 2,"name": "MEDICINE 2","amount": 12.60},{"id": 3,"name": "MEDICINE 3","amount": 10.00}];
+			$.each(data, function(index, val) {
+				 $('#json-data').append('<tr><td><input type="checkbox" class="items" value="'+val.amount+'"></td></td><td>'+val.id+'</td><td>'+val.name+'</td><td>'+val.amount+'</td></tr>')
+			});
+			// toggle check all
+			$('#check-all').on('change', function(){
+				if ($(this).prop('checked')) {
+					$('.items').prop('checked', true);
+					$('.items').each(function () { 
+            total += Number($(this).val()); 
+					});
+					$('#total').val(parseFloat(total).toFixed(2));
+					$('#check-label').html('Uncheck All');
+				}else{ 
+					$('.items').prop('checked', false);
+					$('.items').each(function () { 
+            total -= Number($(this).val()); 
+					});
+					$('#total').val(parseFloat(total).toFixed(2)); 
+					$('#check-label').html('Check All'); 
+				}
+			});
+			// per checkbox
+			$('.items').on('change', function(){
+				if ($(this).prop('checked')) {
+					let amount = $(this).val();
+					let total = $('#total').val();
+					let sum = Number(total) + Number(amount);
+					$('#total').val(parseFloat(sum).toFixed(2));
+				}else{
+					let amount = $(this).val();
+					let total = $('#total').val();
+					let sum = Number(total) - Number(amount);
+					$('#total').val(parseFloat(sum).toFixed(2));
+				}
+			});
+		});
+	</script>
+</body>
+</html>
